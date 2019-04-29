@@ -1,0 +1,69 @@
+
+------------------------------------
+Assumptions Made
+------------------------------------
+- Favourited conctacts are displayed with a green 'Favourited' text underneath the contact name in the Contacts List screen.
+- Portrait and Landscape modes are both supported using adaptive layouts
+- Since no specific contact fields were mentioned for the detail view: 'Given Name', 'Family Name', 'Job Title', 'Birthday' and 'Phone Numbers' fields (and contact image - if any) were displayed in detail view.
+- List is sorted into sections by 'Given Name'.
+- Since no UI design was provided for the detail view, it is displayed as is
+- Since loading contact objects is trivial, no on-device caching or database (e.g: Realm / Core Data) was used.
+- In UI Testing, the denied permissions / unhappy paths are written but not enabled by default (they can be enabled in the scheme editor). Device settings should be reset/erased before running these tests if enabled.
+
+----------------------------------------------------
+Overview of Contacts Technical Test App Components
+-----------------------------------------------------
+
+- Each section abstracted into 2 'modules':
+    - Contacts List
+    - Contact Detail
+
+- Each module has a list of various files, including:
+    - Builder
+    - View Controller
+    - Interactor
+    - Interactor Output Assembler
+    - Presenter
+    - Router
+    - Boundaries
+    - Dependencies (optional)
+    - View Model
+    - Presentable View Model
+    - Main View
+
+- Each module object communicates with another module object (within the same module) in a mostly unidirectional flow.
+    View Controller --> Interactor --> Presenter / Router, etc...
+
+---------------------------
+Module Files Explanations
+---------------------------
+
+- Builder:
+    Responsible for encapsulating the construction of all module files in a single place.
+
+- View Controller:
+    Handles user interactions (table view cell taps, etc...) and forwards them to the 'interactor'
+
+- Interactor:
+    Contains main business logic (fetching contacts, creating view models, etc...) and forwards results to output assembler
+
+- Interactor Output Assembler
+    Allows the interactor to forward results to multiple outputs with a single call (encapsulates for loops)
+
+- Presenter
+    Converts view models into presentable view models (only provides necessary UI output)
+
+- Router
+    Handles routing between different modules
+
+- Boundaries
+    Interfaces used for communication between module files
+
+- View Model / Presentable View Model
+    Data structures containing necessary information for communicating between module files
+
+- Main View
+    Abstracted UIView subclass that contain all UI elements displayed onscreen (with necessary constraints)
+
+- Other Files
+    Other files such as data store, authorisation service, etc... are also used for further abstraction and to adhere to the S.O.L.I.D single responsibility principle.
